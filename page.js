@@ -551,8 +551,7 @@
     var el = e.target;
     while (el && 'A' !== el.nodeName) el = el.parentNode;
     if (!el || 'A' !== el.nodeName) return;
-
-
+    
 
     // Ignore if tag has
     // 1. "download" attribute
@@ -575,9 +574,12 @@
     if (!sameOrigin(el.href)) return;
 
 
+    ////IE9 fix not having leading slash
+    var pathname = el.pathname;
+    pathname = pathname[0] != "/" ? "/" + pathname : pathname;
 
     // rebuild path
-    var path = el.pathname + el.search + (el.hash || '');
+    var path = pathname + el.search + (el.hash || '');
 
     // strip leading "/[drive letter]:" on NW.js on Windows
     if (typeof process !== 'undefined' && path.match(/^\/[a-zA-Z]:\//)) {
